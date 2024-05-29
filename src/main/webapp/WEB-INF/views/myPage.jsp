@@ -850,6 +850,8 @@
 				});
 				// 선택된 항목 배열 초기화
 				selectedSales = [];
+				// 전체 선택 체크박스의 gUnQrM 클래스 제거
+				$('#selectAll').removeClass('gUnQrM');
 				favoriteList(); // 삭제 후 리스트를 새로고침
 			},
 			error: function(error) {

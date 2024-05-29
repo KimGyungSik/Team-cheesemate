@@ -230,7 +230,6 @@
 			}
 			tmp += '</a>';
 			tmp += '<section class="text-section">';
-			tmp += '<p>판매글번호 : ' + item.no + '</p>';
 			if (option === 'seller') {
 				tmp += '<p>' + saleStatusText + '</p>';
 			} else {
@@ -240,8 +239,12 @@
 				tmp += '<p>[나눔]</p>';
 			}
 			if ((option === 'seller' && item.sal_s_cd == 'R') || (option === 'seller' && item.sal_s_cd == 'C')) {
-				tmp += '<p>구매자: <a href="#" class="seller-link" data-seller-id="' + item.buyer_id + '">' + item.buyer_nick + '</a></p>';
-			} else if (option === 'buyer') {
+				// item.buyer_id가 null이 아닌 경우에만 태그 추가
+				if (item.buyer_id !== null) {
+					tmp += '<p>구매자: <a href="#" class="seller-link" data-seller-id="' + item.buyer_id + '">' + item.buyer_nick + '</a></p>';
+				}
+			}
+			else if (option === 'buyer') {
 				tmp += '<p>판매자: <a href="#" class="seller-link" data-seller-id="' + item.seller_id + '">' + item.seller_nick + '</a></p>';
 			}
 			tmp += '<p>제목: ' + saleTitle + '</p>';
