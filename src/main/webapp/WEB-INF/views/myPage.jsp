@@ -231,7 +231,7 @@
 					<input type="radio" name="reviewStar" value="1" id="rate5"><label for="rate5">★</label>
 				</div>
 			</fieldset>
-			<div>
+			<div class="comment-text-box">
 				<textarea type="text" id="reviewContents" name="comment" placeholder="리뷰를 남겨주세요!!"></textarea>
 			</div>
 			<button class="commentBtn" id="" type="button"></button>
@@ -554,6 +554,7 @@
 	}
 
 	// 소개글 수정
+	// 소개글 수정
 	let toChange = function (userInfoDTO) {
 		let newValue = userInfoDTO.contents;
 		$("textarea[name=contents]").val(newValue);
@@ -561,6 +562,12 @@
 		$("#rv_cmt_cnt").text(userInfoDTO.rv_cmt_cnt);
 		$("#rv_cmt_cnt2").text(userInfoDTO.rv_cmt_cnt);
 		$("#star_avg").text(userInfoDTO.star_avg);
+
+		// floorPercentage 값 계산
+		let percentage = userInfoDTO.star_avg * 20;
+		let floorPercentage = Math.floor(percentage);
+
+		$(".hSIAij").text(floorPercentage + "%"); // 만족후기 값을 동적으로 업데이트
 
 		// begin과 end 값 변수로 선언
 		let beginValue = 1;
@@ -579,32 +586,28 @@
 		}
 
 		// HTML을 동적으로 삽입
-		// let averageStarRatingSpan = document.getElementById('averageStarRating');
-		$(".averageStarRating").html('<span>' + starHtml + '</span><span>' + emptyStarHtml + '</span>');
+		$(".averageStarRating").html(starHtml + emptyStarHtml);
 
-		// 별표(★) 표시하는 HTML 생성
+		// 별표(★) 표시하는 HTML 생성 (다른 스타일)
 		let starHtml2 = '';
 		for (let i = beginValue; i <= endValue; i++) {
 			starHtml2 += '<span class="mtfill-star">★</span>';
 		}
 
-		// 빈 별표(☆) 표시하는 HTML 생성
+		// 빈 별표(☆) 표시하는 HTML 생성 (다른 스타일)
 		let emptyStarHtml2 = '';
 		for (let i = endValue; i < 5; i++) {
 			emptyStarHtml2 += '<span class="myempty-star">☆</span>';
 		}
 
 		// HTML을 동적으로 삽입
-		// let averageStarRatingSpan2 = document.getElementById('averageStarRating2');
-		$(".averageStarRating2").html('<span>' + starHtml2 + '</span><span>' + emptyStarHtml2 + '</span>');
-
-
+		$(".averageStarRating2").html(starHtml2 + emptyStarHtml2);
 
 		// text박스의 readonly 속성 읽어오기
-		let isReadonly =$("textarea[name=contents]").attr('readonly');
+		let isReadonly = $("textarea[name=contents]").attr('readonly');
 
 		// 수정버튼으로 바꿈 & text박스를 readonly로
-		if(isReadonly!='readonly') {
+		if (isReadonly !== 'readonly') {
 			$("#modBtn").html("소개글 수정");
 			$("textarea[name=contents]").attr('readonly', true);
 		}
@@ -1133,6 +1136,7 @@
 			let isReadonly =$("textarea[name=contents]").attr('readonly');
 
 			if(isReadonly=='readonly') {
+				$("#modBtn").addClass("h-modify-btn");
 				$("#modBtn").html("소개글 등록");
 				$("textarea").attr('readonly', false);
 				return;
