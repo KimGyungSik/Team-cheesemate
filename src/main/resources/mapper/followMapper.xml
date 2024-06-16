@@ -4,7 +4,7 @@
 
 <mapper namespace="team.cheese.dao.MyPage.FollowDao">
     <!-- 팔로우 등록 -->
-    <insert id="insert" parameterType="FollowDto">
+    <insert id="insertFollow" parameterType="map">
         insert into follow (fromUser, toUser, first_id, last_id)
         values(#{fromUser},#{toUser},#{fromUser},#{fromUser})
     </insert>
@@ -36,40 +36,21 @@
     </select>
 
     <!-- 팔로잉 리스트 : 내가 팔로우 하는 사람들의 목록 -->
-    <select id="selectFollowingAll" parameterType="map" resultType="SaleDto">
-        SELECT s.*
-        FROM sale s
-        INNER JOIN jjim j
-        ON s.no = j.sal_no
-        WHERE j.buyer_id = #{buyer_id}
-        <if test="option != null and option != ''">
-            <choose>
-                <when test='option=="R"'>
-                    ORDER BY s.h_date DESC
-                </when>
-                <when test='option=="P"'>
-                    ORDER BY s.view_cnt DESC
-                </when>
-                <when test='option=="L"'>
-                    and s.tx_s_cd = 'S'
-                    ORDER BY s.price ASC
-                </when>
-                <when test='option=="H"'>
-                    and s.tx_s_cd = 'S'
-                    ORDER BY s.price DESC
-                </when>
-            </choose>
-        </if>
-        LIMIT #{offset},#{pageSize}
+    <select id="selectFollowingAll" parameterType="map" resultType="UserInfoDto">
+        SELECT *
+        FROM user_info
+        WHERE ur_id IN (
+            SELECT toUser
+            FROM follow
+            WHERE fromUser = #{fromUser}
+        )
+            LIMIT #{offset},#{pageSize}
     </select>
 
     <!-- 팔로우 취소  -->
-    <delete id="deleteSelectedSales" parameterType="map">
-        DELETE FROM jjim
-        WHERE buyer_id=#{buyer_id}
-        AND sal_no IN
-        <foreach item="salNo" collection="salNos" open="(" separator="," close=")">
-            #{salNo}
-        </foreach>
+    <delete id="deleteFollow" parameterType="map">
+        DELETE FROM follow
+        WHERE fromUser=#{fromUser}
+        AND toUser = #{toUser}
     </delete>
 </mapper>
