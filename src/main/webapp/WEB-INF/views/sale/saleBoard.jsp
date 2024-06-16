@@ -6,25 +6,25 @@
 <div class="maincontent saleboardarea">
     <div class="jjim-area"></div>
     <div class="saleboard-top-box">
-        <div id="sale-slider-div" class="sale-img-box">
-            <c:forEach items="${imglist}" var="img">
-                <c:if test="${img.imgtype eq 'w'}">
-                    <div class="sale-img">
-                        <c:if test="${Sale.sal_s_cd eq 'R'}">
-                            <div class='saleStatus-box'>
-                                <span class='saleStatusText'>예약중</span>
-                            </div>
-                        </c:if>
-                        <c:if test="${Sale.sal_s_cd eq 'C'}">
-                            <div class='saleStatus-box'>
-                                <span class='saleStatusText'>판매완료</span>
-                            </div>
-                        </c:if>
-                        <img src="/img/display?fileName=${img.img_full_rt}" class="saleboardimg">
-                    </div>
-                </c:if>
-            </c:forEach>
-        </div>
+            <div id="sale-slider-div" class="sale-img-box">
+                <c:forEach items="${imglist}" var="img">
+                    <c:if test="${img.imgtype eq 'w'}">
+                        <div class="sale-img">
+                            <c:if test="${Sale.sal_s_cd eq 'R'}">
+                                <div class='saleStatus-box'>
+                                    <span class='saleStatusText'>예약중</span>
+                                </div>
+                            </c:if>
+                            <c:if test="${Sale.sal_s_cd eq 'C'}">
+                                <div class='saleStatus-box'>
+                                    <span class='saleStatusText'>판매완료</span>
+                                </div>
+                            </c:if>
+                            <img src="/img/display?fileName=${img.img_full_rt}" class="saleboardimg">
+                        </div>
+                    </c:if>
+                </c:forEach>
+            </div>
 
         <div class="saleinfobox">
             <div class="categorybox">
@@ -177,9 +177,9 @@
                     </c:when>
                     <c:otherwise>
                         <div class="jjim-btn">
-                            <button type="button" id="saleboard-jjimbtn">
-                                <p class="like_cnt" id="likeCount">${Sale.like_cnt}</p>
-                            </button>
+                        <button type="button" id="saleboard-jjimbtn">
+                        <p class="like_cnt" id="likeCount">${Sale.like_cnt}</p>
+                        </button>
                         </div>
                         <form id="form">
                             <button type="button" id="saleboard-charbtn" class="btn-salestyle">채팅하기</button>
